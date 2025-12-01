@@ -1,11 +1,13 @@
 package com.seguros.vehiculos_api.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "vehiculo")
-
 public class Vehiculo {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idVehiculo;
@@ -16,7 +18,17 @@ public class Vehiculo {
     private int anio;
     private String color;
 
+    // Relación con Conductor
+    @OneToOne
+    @JoinColumn(name = "idConductor")
+    private Conductor conductor;
 
+    // Relación con Seguros (con JsonIgnore para evitar JSON infinito)
+    @JsonIgnore
+    @OneToMany(mappedBy = "vehiculo", cascade = CascadeType.ALL)
+    private List<Seguro> seguros;
+
+    // GETTERS Y SETTERS
     public Long getIdVehiculo() { return idVehiculo; }
     public void setIdVehiculo(Long idVehiculo) { this.idVehiculo = idVehiculo; }
 
@@ -34,4 +46,10 @@ public class Vehiculo {
 
     public String getColor() { return color; }
     public void setColor(String color) { this.color = color; }
+
+    public Conductor getConductor() { return conductor; }
+    public void setConductor(Conductor conductor) { this.conductor = conductor; }
+
+    public List<Seguro> getSeguros() { return seguros; }
+    public void setSeguros(List<Seguro> seguros) { this.seguros = seguros; }
 }

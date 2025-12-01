@@ -35,7 +35,7 @@ public class VehiculoServiceImpl implements VehiculoService {
     @Override
     public Vehiculo actualizarVehiculo(Long id, Vehiculo vehiculo) {
         if (!repo.existsById(id)) {
-            return null;
+            return null;  // o lanzar excepción si prefieres
         }
         vehiculo.setIdVehiculo(id);
         return repo.save(vehiculo);
